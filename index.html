@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <canvas id="canvas"></canvas>
+    <script>
+        fetch("/test_ppm.ppm").then(x=>x.text()).then(ppm=>{
+            const [header, dimension, max, ...pixels] = ppm.split("\n")
+            const [width, height] = dimension.split(" ")
+            canvas.width = width;
+            canvas.height = height;
+            const ctx = canvas.getContext('2d')
+            const imageData = ctx.createImageData(width, height)
+            for(let i=0;4*i+4<imageData.data.length;i++){
+                const [r,g,b] = pixels[i].split(" ").map(parseInt)
+                imageData.data[4*i] = r;
+                imageData.data[4*i+1] = g;
+                imageData.data[4*i+2] = b;
+            }
+            ctx.putImageData(imageData, 0, 0)
+        })
+
+    </script>
+</body>
+</html>
