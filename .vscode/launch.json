@@ -5,6 +5,43 @@
     "version": "0.2.0",
     "configurations": [
         {
+            "type": "lldb",
+            "request": "launch",
+            "name": "Debug executable 'soft_render'",
+            "cargo": {
+                "args": [
+                    "build",
+                    "--bin=soft_render",
+                    "--package=soft_render"
+                ],
+                "filter": {
+                    "name": "soft_render",
+                    "kind": "bin"
+                }
+            },
+            "args": [],
+            "cwd": "${workspaceFolder}"
+        },
+        {
+            "type": "lldb",
+            "request": "launch",
+            "name": "Debug unit tests in executable 'soft_render'",
+            "cargo": {
+                "args": [
+                    "test",
+                    "--no-run",
+                    "--bin=soft_render",
+                    "--package=soft_render"
+                ],
+                "filter": {
+                    "name": "soft_render",
+                    "kind": "bin"
+                }
+            },
+            "args": [],
+            "cwd": "${workspaceFolder}"
+        },
+        {
             "name": "(Windows) 启动",
             "type": "cppvsdbg",
             "request": "launch",

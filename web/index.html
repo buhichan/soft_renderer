@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Document</title>
+        <style>
+            body {
+                background: #000;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                height: 100vh;
+                overflow: auto;
+            }
+        </style>
+    </head>
+    <body>
+        <canvas id="canvas"></canvas>
+        <script src="/socket.io/socket.io.js"></script>
+        <script>
+            const wsClient = io()
+            wsClient.on("change", () => {
+                draw()
+            })
+
+            function draw() {
+                fetch("/test_ppm.ppm")
+                    .then(x => x.text())
+                    .then(ppm => {
+                        const [header, dimension, max, ...pixels] = ppm.split("\n")
+                        const [width, height] = dimension.split(" ").map(x => parseInt(x))
+                        canvas.width = width
+                        canvas.height = height
+                        const ctx = canvas.getContext("2d")
+                        const imageData = ctx.createImageData(width, height)
+                        for (let i = 0; 4 * i + 4 < imageData.data.length; i++) {
+                            const [r, g, b] = pixels[i].split(" ").map(x => parseInt(x))
+                            imageData.data[4 * i] = r
+                            imageData.data[4 * i + 1] = g
+                            imageData.data[4 * i + 2] = b
+                            imageData.data[4 * i + 3] = 255
+                        }
+                        ctx.putImageData(imageData, 0, 0)
+                        console.log("draw")
+                    })
+            }
+            draw()
+        </script>
+    </body>
+</html>

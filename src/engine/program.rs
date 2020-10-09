@@ -29,9 +29,9 @@ impl std::ops::Mul<f64> for &ShaderData {
     type Output = ShaderData;
     fn mul(self, rhs: f64) -> ShaderData {
         match self {
-            ShaderData::Float(v) => ShaderData::Float(v * rhs),
-            ShaderData::Vec4(v) => ShaderData::Vec4(v * rhs),
-            ShaderData::Mat4(v) => ShaderData::Mat4(v * rhs),
+            ShaderData::Float(v) => ShaderData::Float(*v * rhs),
+            ShaderData::Vec4(v) => ShaderData::Vec4(*v * rhs),
+            ShaderData::Mat4(v) => ShaderData::Mat4(*v * rhs),
         }
     }
 }
@@ -40,9 +40,9 @@ impl std::ops::Add<ShaderData> for ShaderData {
     type Output = ShaderData;
     fn add(self, rhs: ShaderData) -> ShaderData {
         match (self, rhs) {
-            (ShaderData::Float(v), ShaderData::Float(rhs)) => ShaderData::Float(&v + &rhs),
-            (ShaderData::Vec4(v), ShaderData::Vec4(rhs)) => ShaderData::Vec4(&v + &rhs),
-            (ShaderData::Mat4(v), ShaderData::Mat4(rhs)) => ShaderData::Mat4(&v + &rhs),
+            (ShaderData::Float(v), ShaderData::Float(rhs)) => ShaderData::Float(v + rhs),
+            (ShaderData::Vec4(v), ShaderData::Vec4(rhs)) => ShaderData::Vec4(v + rhs),
+            (ShaderData::Mat4(v), ShaderData::Mat4(rhs)) => ShaderData::Mat4(v + rhs),
             (left, _) => left,
         }
     }

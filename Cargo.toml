@@ -9,3 +9,4 @@ version = "0.1.0"
 [dependencies]
 colored = "2"
 tobj = { version = "2.0.2", features = ["log"]}
+rand = "*"

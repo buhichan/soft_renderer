@@ -5,7 +5,7 @@ pub struct Vec2 {
     pub value: [f64; 2],
 }
 impl Vec2 {
-    pub const Origin: Vec2 = Vec2 { value: [0.0, 0.0] };
+    pub const ORIGIN: Vec2 = Vec2 { value: [0.0, 0.0] };
     pub fn new(x: f64, y: f64) -> Vec2 {
         Vec2 { value: [x, y] }
     }

@@ -24,7 +24,7 @@ impl std::fmt::Display for Mat4 {
 }
 
 impl Mat4 {
-    pub const Identity: Mat4 = Mat4 {
+    pub const IDENTITY: Mat4 = Mat4 {
         value: [
             1., 0., 0., 0., 0., 1., 0., 0., 0., 0., 1., 0., 0., 0., 0., 1.,
         ],
@@ -50,9 +50,9 @@ macro_rules! mat4 {
     }};
 }
 
-impl Mul<&Vec4> for &Mat4 {
+impl Mul<Vec4> for Mat4 {
     type Output = Vec4;
-    fn mul(self, rhs: &Vec4) -> Vec4 {
+    fn mul(self, rhs: Vec4) -> Vec4 {
         Vec4::new(
             self.value[0] * rhs.value[0]
                 + self.value[1] * rhs.value[1]
@@ -74,9 +74,9 @@ impl Mul<&Vec4> for &Mat4 {
     }
 }
 
-impl Mul<&Mat4> for &Mat4 {
+impl Mul<Mat4> for Mat4 {
     type Output = Mat4;
-    fn mul(self, rhs: &Mat4) -> Mat4 {
+    fn mul(self, rhs: Mat4) -> Mat4 {
         mat4!(
             i,
             j,
@@ -88,16 +88,16 @@ impl Mul<&Mat4> for &Mat4 {
     }
 }
 
-impl Mul<f64> for &Mat4 {
+impl Mul<f64> for Mat4 {
     type Output = Mat4;
     fn mul(self, rhs: f64) -> Mat4 {
         mat4!(i, j, self.value[j * 4 + i] * rhs)
     }
 }
 
-impl Add<&Mat4> for &Mat4 {
+impl Add<Mat4> for Mat4 {
     type Output = Mat4;
-    fn add(self, rhs: &Mat4) -> Mat4 {
+    fn add(self, rhs: Mat4) -> Mat4 {
         mat4!(i, j, self.value[j * 4 + i] + rhs.value[j * 4 + i])
     }
 }
@@ -109,7 +109,7 @@ fn test_mat4_add() {
 
     let expect_a_plus_b = mat4!(i, j, (6 * i + 5 * j) as f64);
 
-    let a_plus_b = &a + &b;
+    let a_plus_b = a + b;
 
     assert_eq!(
         &a_plus_b, &expect_a_plus_b,
@@ -132,7 +132,7 @@ fn test_mat4_mul() {
         ] as [f64; 16],
     };
 
-    let a_mul_b = &a * &b;
+    let a_mul_b = a * b;
 
     assert_eq!(
         &a_mul_b, &expect_a_mul_b,

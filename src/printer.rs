@@ -50,8 +50,8 @@ pub fn render_points_to_string(points: Vec<((usize, usize), (f64, f64, f64))>) -
 
 pub fn render_to_ppm(frame: &Frame) -> String {
     let mut res = format!("P3\n{} {}\n255\n",frame.width,frame.height).to_string();
-    for y in 0..=frame.height {
-        for x in 0..=frame.width {
+    for y in 0..frame.height {
+        for x in 0..frame.width {
             if let Some(pixel) = frame.get(&(x, y)) {
                 res += format!("{} {} {}\n", (pixel.color.0), pixel.color.1, pixel.color.2 ).as_str();
             } else {

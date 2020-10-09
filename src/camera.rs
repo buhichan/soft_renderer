@@ -19,13 +19,13 @@ pub struct Camera {
 
 impl Camera {
     pub fn new(up:Vec4, front:Vec4, position:Vec4) -> Camera {
-        let rotation = Mat4::Identity.clone();
+        let rotation = Mat4::IDENTITY.clone();
 
         let mut new_camera = Camera {
-            projection_matrix: Mat4::Identity,
+            projection_matrix: Mat4::IDENTITY,
             position,
             rotation,
-            view_matrix: Mat4::Identity,
+            view_matrix: Mat4::IDENTITY,
             near: 0.1,
             far: 100.,
             fov: std::f64::consts::PI / 4.0,
@@ -41,7 +41,7 @@ impl Camera {
     }
     pub fn recompute_view_matrix(&mut self) {
 
-        let right = Vec4::cross(&self.get_front(), &self.get_up());
+        let right = Vec4::cross(self.get_front(), self.get_up());
 
         for i in 0..3 {
             self.rotation.value[4 * i] = right.value[i];
@@ -56,7 +56,7 @@ impl Camera {
             ],
         };
 
-        self.view_matrix = &self.rotation * &position_matrix;
+        self.view_matrix = self.rotation * position_matrix;
     }
     /**
      * borrowed from https://github.com/mrdoob/three.js/blob/dev/src/math/Matrix4.js
